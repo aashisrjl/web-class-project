@@ -6,35 +6,27 @@ if(isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password
 {
     $msg="";
     $errmsg="";
-    $name = $_POST['username'];
+    $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $age = $_POST['dob'];
+    $dob = $_POST['dob'];
     $gender= $_POST['gender'];
 
 
 
     if($email!=""){
-        if($name != ""){
-            if($password == $pass2){
-                if(strlen($password)>=8){
-                    $enc= md5($password);
-
-                    $query= "INSERT INTO users (name,email,password) VALUES('$name','$email','$enc')";
+        if($username != ""){
+                    $query= "INSERT INTO users (username,email,`password`,gender,dob) VALUES('$username','$email','$password','$gender','$dob')";
 
                         if(mysqli_query($conn,$query))
                         {
                             $msg="Login Success";
                            
                         }
-                        
-                }else{
-                    $errmsg= "password must be 8 char";
-                }
-            }else{
-                $errmsg= "password and confiramtion password must be same";
-            }
-
+                        else{
+                            $errmsg= "Error: ". mysqli_error($conn);
+                        }
+           
         }else{
             $errmsg= "name can't be empty";
         }
@@ -50,10 +42,10 @@ if(isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password
 }
 if($msg !="")
 {
-    header('Location:../forms/login.php?msg='.$msg);
+    header('Location:../pages/Login.php?msg='.$msg);
     
 }else{
 
-header('Location:../forms/signup.php?err='.$errmsg);
+header('Location:../pages/Register.php?err='.$errmsg);
 } 
- ?>
+ 

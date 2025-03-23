@@ -9,8 +9,7 @@ if(isset($_POST['email']) && isset($_POST['password']))
 
 
     if($email!=""){
-        $enc=md5($password);
-        $query= "SELECT * FROM users where email='$email' and `password`='$enc'";
+        $query= "SELECT * FROM users where email='$email' and `password`='$password'";
         $result= mysqli_query($conn,$query);
         if(mysqli_num_rows($result)==1)
         {
@@ -43,7 +42,7 @@ if($msg !="")
     
 }else{
 
-header('Location:../pares/Login.php?err='.$errmsg);
+header('Location:../pages/Login.php?err='.$errmsg);
 } 
  ?>
  

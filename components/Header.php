@@ -8,6 +8,7 @@
       <a href="../pages/About.php" style="color: #007BFF; margin-right: 15px; text-decoration: none;">About Us</a>
       <a href="../pages/Login.php" style="color: #007BFF; margin-right: 15px; text-decoration: none;">Login</a>
       <a href="../pages/Register.php" style="color: #007BFF; margin-right: 15px; text-decoration: none;">Register</a>
+      <a href="../process/LogoutProcess.php" style="color: #007BFF; margin-right: 15px; text-decoration: none;">Logout</a>
     </nav>
   </div>
 </header>

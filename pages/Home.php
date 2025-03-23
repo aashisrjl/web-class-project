@@ -1,3 +1,18 @@
+<?php
+include('../database/Connection.php');
+session_start();
+if (!isset($_SESSION['email'])) {
+    header('Location:../pages/Login.php');
+    exit();
+}
+
+// Fetch posts from the database
+$query = "SELECT p.title, p.description, p.post_date, p.image, u.username 
+          FROM posts p 
+          JOIN users u ON p.userId = u.id 
+          ORDER BY p.post_date DESC";
+$result = mysqli_query($conn, $query);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +20,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - WebClass</title>
     <style>
+        /* Add your CSS styles here */
+    
         * {
             margin: 0;
             padding: 0;
@@ -140,92 +157,41 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <?php include '../components/Header.php'; ?>
 
-    <!-- Main Content -->
     <div class="container">
-        <!-- Form to Add a New Post (Static) -->
         <div class="post-form">
-            <p>Whats on your mind ?</p>
+            <p>What’s on your mind?</p>
             <a href="AddPost.php"><button>Create a Post</button></a>
         </div>
 
-        <!-- Newsfeed Posts -->
         <div class="post-list">
             <h2>Newsfeed</h2>
-            <!-- Post 1 -->
-            <div class="post">
-                <div class="post-header">
-                    <div class="avatar"></div>
-                    <div class="user-info">
-                        <p class="username">Roajn Aryal</p>
-                        <p class="timestamp">2 hours ago</p>
+            <?php if (mysqli_num_rows($result) > 0): ?>
+                <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                    <div class="post">
+                        <div class="post-header">
+                            <div class="avatar"></div>
+                            <div class="user-info">
+                                <p class="username"> <?= htmlspecialchars($row['username']) ?> </p>
+                                <p class="timestamp"> <?= htmlspecialchars($row['post_date']) ?> </p>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <p><?= nl2br(htmlspecialchars($row['description'])) ?></p>
+                        </div>
+                        <?php if ($row['image']): ?>
+                            <img src="../uploads/<?= htmlspecialchars($row['image']) ?>" alt="Post Image" class="post-image">
+                        <?php endif; ?>
+                        <div class="post-actions">
+                        <a href="../process/DeletePostProcess.php"> <button>Edit</button></a>
+                            <a href="../process/DeletePostProcess.php?id=<?htmlspecialchars($row['pid'])?>"> <button>Delete</button></a>
+                        </div>
                     </div>
-                </div>
-                <div class="post-content">
-                    <p>This is a sample post. I had a great day today!</p>
-                </div>
-                <img src="../images/namelogo.jpg" alt="Post Image" class="post-image">
-                <div class="post-actions">
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </div>
-            </div>
-            <!-- Post 2 -->
-            <div class="post">
-                <div class="post-header">
-                    <div class="avatar"></div>
-                    <div class="user-info">
-                        <p class="username">Aashis</p>
-                        <p class="timestamp">5 hours ago</p>
-                    </div>
-                </div>
-                <div class="post-content">
-                    <p>Just finished my project for the web class. Feeling accomplished!</p>
-                </div>
-                <img src="../images/ganesh-5998483_1280.jpg" alt="Post Image" class="post-image">
-                <div class="post-actions">
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </div>
-            </div>
-               <!-- Post 2 -->
-               <div class="post">
-                <div class="post-header">
-                    <div class="avatar"></div>
-                    <div class="user-info">
-                        <p class="username">Aashish Rijal</p>
-                        <p class="timestamp">5 hours ago</p>
-                    </div>
-                </div>
-                <div class="post-content">
-                    <p>Just finished my project for the web class. Feeling accomplished!</p>
-                </div>
-                <img src="../images/grocery.png" alt="Post Image" class="post-image">
-                <div class="post-actions">
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </div>
-            </div>
-            <!-- Post 3 -->
-            <div class="post">
-                <div class="post-header">
-                    <div class="avatar"></div>
-                    <div class="user-info">
-                        <p class="username">Kushal Bhatta</p>
-                        <p class="timestamp">1 day ago</p>
-                    </div>
-                </div>
-                <div class="post-content">
-                    <p>Does anyone have tips for learning CSS faster?</p>
-                </div>
-                <img src="../images/image.jpg" alt="Post Image" class="post-image">
-                <div class="post-actions">
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </div>
-            </div>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p>No posts yet. Be the first to post!</p>
+            <?php endif; ?>
         </div>
     </div>
 
