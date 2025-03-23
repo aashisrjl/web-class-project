@@ -2,14 +2,14 @@
 include('../database/Connection.php');
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
-if(isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['age']) && isset($_POST['gender']))
+if(isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['dob']) && isset($_POST['gender']))
 {
     $msg="";
     $errmsg="";
     $name = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $age = $_POST['age'];
+    $age = $_POST['dob'];
     $gender= $_POST['gender'];
 
 
