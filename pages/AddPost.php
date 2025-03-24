@@ -71,9 +71,8 @@
             <h2>Add New Post</h2>
             <form action="../process/AddPostProcess.php" method="POST" enctype="multipart/form-data">
                 <input type="text" name="title" placeholder="Post Title" required>
-                <input type="date" name="post_date" required>
                 <textarea name="description" placeholder="Post Description" required></textarea>
-                <input type="file" name="image" accept="image/*" required>
+                <input type="file" name="image" accept="image/*" >
                 <button type="submit">Submit Post</button>
             </form>
         </div>

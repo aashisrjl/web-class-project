@@ -7,7 +7,7 @@ if (!isset($_SESSION['email'])) {
 }
 
 // Fetch posts from the database
-$query = "SELECT p.title, p.description, p.post_date, p.image, u.username 
+$query = "SELECT p.title, p.description, p.post_date, p.image, u.username , p.pid
           FROM posts p 
           JOIN users u ON p.userId = u.id 
           ORDER BY p.post_date DESC";
@@ -162,7 +162,7 @@ $result = mysqli_query($conn, $query);
     <div class="container">
         <div class="post-form">
             <p>What’s on your mind?</p>
-            <a href="AddPost.php"><button>Create a Post</button></a>
+            <a href="AddEditPost.php"><button>Create a Post</button></a>
         </div>
 
         <div class="post-list">
@@ -184,8 +184,11 @@ $result = mysqli_query($conn, $query);
                             <img src="../uploads/<?= htmlspecialchars($row['image']) ?>" alt="Post Image" class="post-image">
                         <?php endif; ?>
                         <div class="post-actions">
-                        <a href="../process/DeletePostProcess.php"> <button>Edit</button></a>
-                            <a href="../process/DeletePostProcess.php?id=<?htmlspecialchars($row['pid'])?>"> <button>Delete</button></a>
+                        <a href="AddEditPost.php?postId=<?php echo htmlspecialchars($row['pid']); ?>">
+                             <button>Edit</button></a>
+                        <a href="../process/DeletePostProcess.php?id=<?php echo htmlspecialchars($row['pid']); ?>"> 
+                            <button>Delete</button>
+                        </a>
                         </div>
                     </div>
                 <?php endwhile; ?>
